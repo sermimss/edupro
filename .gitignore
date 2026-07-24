@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.log
+.env
+.DS_Store
+.venv/
+.ARCHIVO/
+render.yaml
