@@ -1,5 +1,5 @@
 import os
-from config import RUTA_CONTEXTO, log
+from config import RUTA_CONTEXTO , log
 
 _contexto_cache = {"texto": "", "mtime": None}
 
