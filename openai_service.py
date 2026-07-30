@@ -1,7 +1,13 @@
 import json
 from urllib.parse import quote_plus
 from openai import OpenAI
-from config import OPENAI_API_KEY, OPENAI_MODEL, ASISTENTE_INSCRIPCION_NUMERO, ASISTENTE_INSCRIPCION_WA
+from config import (
+    OPENAI_API_KEY,
+    OPENAI_MODEL,
+    OPENAI_STORE_RESPONSES,
+    ASISTENTE_INSCRIPCION_NUMERO,
+    ASISTENTE_INSCRIPCION_WA,
+)
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 
@@ -82,7 +88,7 @@ def generar_respuesta(instrucciones: str, entrada_modelo: list):
         input=entrada_modelo,
         temperature=0.5,
         max_output_tokens=2048,
-        store=True,
+        store=OPENAI_STORE_RESPONSES,
         tools=tools_traspaso,
     )
 

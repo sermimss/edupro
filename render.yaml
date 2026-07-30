@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: bot-claude
+    env: python
+    plan: free
+    region: oregon
+    repo: https://github.com/sermimss/edupro
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn appies:app --bind 0.0.0.0:$PORT --workers 2
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: META_TOKEN
+        sync: false
+      - key: PHONE_NUMBER_ID
+        sync: false
+      - key: META_APP_SECRET
+        sync: false
+      - key: VERIFY_TOKEN
+        value: vibecode
+        sync: false
+      - key: NUMERO_ASESOR
+        sync: false
+      - key: ASISTENTE_INSCRIPCION_NUMERO
+        value: 6142015283
+        sync: false
+      - key: ASISTENTE_INSCRIPCION_WA
+        value: 526142015283
+        sync: false
+      - key: LOG_FILE
+        value: /tmp/cess_bot.log
+        sync: false

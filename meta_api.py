@@ -42,10 +42,17 @@ def enviar_whatsapp(number: str, text: str, phone_number_id: str = None, reinten
     for intento in range(1, reintentos + 2):
         try:
             res = session.post(url, json=payload, headers=headers, timeout=REQUEST_TIMEOUT)
-            if res is not None and res.status_code >= 400:
+            if res is None:
+                raise RuntimeError("No response returned from WhatsApp API")
+
+            if res.status_code >= 400:
                 log.error(
                     f"❌ Error enviando WhatsApp a {number} (status {res.status_code}): {res.text}"
                 )
+                if res.status_code in (429, 500, 502, 503, 504) and intento <= reintentos:
+                    time.sleep(2 * intento)
+                    continue
+                return res
             return res
         except Exception as e:
             log.warning(f"⚠️ Intento {intento} fallido enviando WhatsApp a {number}: {e}")

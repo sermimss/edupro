@@ -63,6 +63,7 @@ PORT = int(os.environ.get("PORT", "5000"))
 ASISTENTE_INSCRIPCION_NUMERO = os.environ.get("ASISTENTE_INSCRIPCION_NUMERO", "6142015283")
 ASISTENTE_INSCRIPCION_WA = os.environ.get("ASISTENTE_INSCRIPCION_WA", "526142015283")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
+OPENAI_STORE_RESPONSES = os.environ.get("OPENAI_STORE_RESPONSES", "false").lower() in ("1", "true", "yes")
 META_BASE_URL = "https://graph.facebook.com"
 REQUEST_TIMEOUT = float(os.environ.get("REQUEST_TIMEOUT", "15"))
 REQUEST_RETRIES = int(os.environ.get("REQUEST_RETRIES", "2"))

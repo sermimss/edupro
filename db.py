@@ -1,12 +1,14 @@
 import sqlite3
 import threading
 from datetime import datetime, timezone
+from pathlib import Path
 from config import DB_PATH, log
 
 _db_lock = threading.Lock()
 
 
 def conectar():
+    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
     con = sqlite3.connect(DB_PATH, timeout=10)
     con.execute("PRAGMA journal_mode=WAL")
     con.execute("PRAGMA busy_timeout=10000")

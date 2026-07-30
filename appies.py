@@ -49,8 +49,20 @@ def recibir_webhook():
         return jsonify({"status": "invalid signature"}), 403
 
     data = request.get_json(silent=True) or {}
-    executor.submit(procesar_payload, data)
+    future = executor.submit(procesar_payload, data)
+    future.add_done_callback(_log_future_exception)
     return jsonify({"status": "success"}), 200
+
+
+def _log_future_exception(future):
+    try:
+        exc = future.exception()
+    except Exception as err:
+        log.exception("❌ Error revisando la tarea de fondo", exc_info=(type(err), err, err.__traceback__))
+        return
+
+    if exc:
+        log.error("❌ Error en la tarea de fondo", exc_info=(type(exc), exc, exc.__traceback__))
 
 
 def procesar_payload(data: dict):
