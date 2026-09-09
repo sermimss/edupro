@@ -33,6 +33,7 @@ def inicializar_db():
             procesado_en TEXT NOT NULL
         )
     """)
+    con.execute("CREATE INDEX IF NOT EXISTS idx_mensajes_procesados_fecha ON mensajes_procesados(procesado_en)")
     con.commit()
     con.close()
 
@@ -89,32 +90,25 @@ def limpiar_historial_antiguo(numero: str):
             con.close()
 
 
-def ya_procesado(wamid: str) -> bool:
-    if not wamid:
-        return False
-    con = conectar()
-    try:
-        fila = con.execute(
-            "SELECT 1 FROM mensajes_procesados WHERE wamid = ?", (wamid,)
-        ).fetchone()
-    finally:
-        con.close()
-    return fila is not None
+def intentar_marcar_procesado(wamid: str) -> bool:
+    """Reclama atómicamente un wamid para procesarlo.
 
-
-def marcar_procesado(wamid: str):
+    Devuelve True solo para la llamada que efectivamente lo reclama primero;
+    cualquier llamada concurrente u posterior para el mismo wamid recibe False.
+    Reemplaza al par ya_procesado()/marcar_procesado(), que dejaba una ventana
+    entre verificar y marcar donde dos hilos podían procesar el mismo mensaje.
+    """
     if not wamid:
-        return
+        return True
     with _db_lock:
         con = conectar()
         try:
-            con.execute(
-                "INSERT INTO mensajes_procesados (wamid, procesado_en) VALUES (?, ?)",
+            cursor = con.execute(
+                "INSERT OR IGNORE INTO mensajes_procesados (wamid, procesado_en) VALUES (?, ?)",
                 (wamid, datetime.now(timezone.utc).isoformat()),
             )
             con.commit()
-        except sqlite3.IntegrityError:
-            pass
+            return cursor.rowcount > 0
         finally:
             con.close()
 

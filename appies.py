@@ -1,7 +1,7 @@
 ﻿from flask import Flask, jsonify, request
 import json
 from config import executor, log, VERIFY_TOKEN, NUMERO_ASESOR, ASISTENTE_INSCRIPCION_NUMERO, ASISTENTE_INSCRIPCION_WA
-from db import guardar_mensaje, obtener_historial, limpiar_historial_antiguo, ya_procesado, marcar_procesado
+from db import guardar_mensaje, obtener_historial, limpiar_historial_antiguo, intentar_marcar_procesado, limpiar_mensajes_procesados_antiguos
 from contexto import cargar_contexto
 from meta_api import marcar_como_leido, enviar_whatsapp
 from openai_service import generar_respuesta, extraer_texto_respuesta, parsear_llamadas_funcion, MENSAJES_RESPALDO, MENSAJE_RESPALDO_GENERICO, MENSAJE_ERROR_TECNICO, get_inscripcion_instruccion
@@ -96,16 +96,24 @@ def procesar_mensaje_individual(message: dict, nombre_usuario: str, phone_number
     numero_usuario = message.get('from')
     wamid = message.get('id')
 
-    if ya_procesado(wamid):
+    if not intentar_marcar_procesado(wamid):
         log.info(f"🔁 Mensaje {wamid} ya procesado antes, se ignora (reintento de Meta).")
         return
-    marcar_procesado(wamid)
 
     marcar_como_leido(wamid, phone_number_id)
 
     texto_usuario = None
-    if message.get('type') == 'text':
+    tipo_mensaje = message.get('type')
+    if tipo_mensaje == 'text':
         texto_usuario = message.get('text', {}).get('body')
+    elif tipo_mensaje == 'interactive':
+        interactive = message.get('interactive', {})
+        if interactive.get('type') == 'button_reply':
+            texto_usuario = interactive.get('button_reply', {}).get('title')
+        elif interactive.get('type') == 'list_reply':
+            texto_usuario = interactive.get('list_reply', {}).get('title')
+    elif tipo_mensaje == 'button':
+        texto_usuario = message.get('button', {}).get('text')
 
     referral = message.get('referral')
     ad_context = ""
@@ -194,6 +202,7 @@ def procesar_mensaje_individual(message: dict, nombre_usuario: str, phone_number
     guardar_mensaje(numero_usuario, "user", texto_usuario)
     guardar_mensaje(numero_usuario, "assistant", respuesta_final)
     limpiar_historial_antiguo(numero_usuario)
+    limpiar_mensajes_procesados_antiguos()
 
 
 if __name__ == '__main__':

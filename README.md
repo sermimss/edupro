@@ -11,8 +11,11 @@ Repositorio listo para desplegar en Render con integración de WhatsApp Cloud AP
 - `openai_service.py`: llamadas a OpenAI y manejo de respuesta.
 - `meta_api.py`: envío de mensajes y marcado de leídos a Meta/WhatsApp.
 - `requirements.txt`: dependencias de Python.
+- `requirements-dev.txt`: dependencias solo para desarrollo/tests (pytest).
 - `Procfile`: comando de inicio para Render.
 - `render.yaml`: definición del servicio Render.
+- `contextoies.md`: **fuente de verdad** que el bot carga en tiempo real como contexto para el LLM.
+- `contexto.docx`: documento de trabajo en Word para redactar/editar el contenido cómodamente. El bot **no lo lee**; los cambios deben copiarse manualmente a `contextoies.md` para que tengan efecto.
 
 ## Despliegue en Render
 
@@ -39,6 +42,7 @@ Repositorio listo para desplegar en Render con integración de WhatsApp Cloud AP
    - `ASISTENTE_INSCRIPCION_NUMERO=6142015283` (opcional si quieres sobreescribir)
    - `ASISTENTE_INSCRIPCION_WA=526142015283` (opcional)
    - `OPENAI_MODEL=gpt-4o-mini` (opcional)
+   - `OPENAI_TIMEOUT=60` (opcional, segundos de espera máxima para la respuesta de OpenAI)
 
 7. Despliega y espera a que Render construya el servicio.
 
@@ -81,6 +85,13 @@ Repositorio listo para desplegar en Render con integración de WhatsApp Cloud AP
    ```bash
    python appies.py
    ```
+
+## Ejecutar los tests
+
+```bash
+pip install -r requirements.txt -r requirements-dev.txt
+pytest
+```
 
 ## URL del repositorio
 

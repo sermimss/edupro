@@ -5,6 +5,7 @@ from config import (
     OPENAI_API_KEY,
     OPENAI_MODEL,
     OPENAI_STORE_RESPONSES,
+    OPENAI_TIMEOUT,
     ASISTENTE_INSCRIPCION_NUMERO,
     ASISTENTE_INSCRIPCION_WA,
 )
@@ -90,6 +91,7 @@ def generar_respuesta(instrucciones: str, entrada_modelo: list):
         max_output_tokens=2048,
         store=OPENAI_STORE_RESPONSES,
         tools=tools_traspaso,
+        timeout=OPENAI_TIMEOUT,
     )
 
 

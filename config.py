@@ -51,6 +51,11 @@ OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 META_TOKEN = os.environ["META_TOKEN"]
 PHONE_NUMBER_ID = os.environ["PHONE_NUMBER_ID"]
 VERIFY_TOKEN = os.environ.get("VERIFY_TOKEN", "vibecode")
+if VERIFY_TOKEN == "vibecode":
+    log.warning(
+        "⚠️ VERIFY_TOKEN sigue en su valor por defecto ('vibecode'). "
+        "Configura un valor único en producción para evitar que sea adivinado."
+    )
 NUMERO_ASESOR = os.environ["NUMERO_ASESOR"]
 META_APP_SECRET = os.environ["META_APP_SECRET"]
 
@@ -64,6 +69,7 @@ ASISTENTE_INSCRIPCION_NUMERO = os.environ.get("ASISTENTE_INSCRIPCION_NUMERO", "6
 ASISTENTE_INSCRIPCION_WA = os.environ.get("ASISTENTE_INSCRIPCION_WA", "526142015283")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
 OPENAI_STORE_RESPONSES = os.environ.get("OPENAI_STORE_RESPONSES", "false").lower() in ("1", "true", "yes")
+OPENAI_TIMEOUT = float(os.environ.get("OPENAI_TIMEOUT", "60"))
 META_BASE_URL = "https://graph.facebook.com"
 REQUEST_TIMEOUT = float(os.environ.get("REQUEST_TIMEOUT", "15"))
 REQUEST_RETRIES = int(os.environ.get("REQUEST_RETRIES", "2"))
