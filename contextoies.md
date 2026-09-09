@@ -31,8 +31,8 @@
 
 ## Modalidad
 
-- Presencial
-- Horarios matutino, vespertino y sabatino
+- Presencial, con horarios matutino, vespertino y sabatino.
+- Psicopedagogía Infantil y el Nivelatorio de la Lic. en Enfermería también se ofrecen en modalidad en línea.
 
 ## Redes sociales
 
@@ -41,10 +41,6 @@
 ## Inicio del próximo grupo
 
 - Estamos por iniciar grupo próximamente en el mes de SEPTIEMBRE.
-
-## Vigencia del descuento en inscripción
-
-- 31 de julio del 2026
 
 ## Excepción para el Nivelatorio Lic. en Enfermería
 
@@ -60,14 +56,14 @@ Este programa además necesita:
 ### Licenciatura en Psicopedagogía Infantil
 
 - Público objetivo: Personas interesadas en aprendizaje y desarrollo infantil.
-- Horarios: Matutino / Vespertino / Sabatino.
+- Horarios: Matutino / Vespertino / Sabatino. Disponible también en modalidad en línea.
 - Inscripción: Cuatrimestral de $2,000.
 - Mensualidad: $2,400.
 
 ### Nivelatorio Lic. en Enfermería
 
 - Público objetivo: Personas con experiencia o formación previa en enfermería.
-- Horarios: Matutino / Vespertino / Sabatino.
+- Horarios: Matutino / Vespertino / Sabatino. Disponible también en modalidad en línea.
 - Inscripción: Semestral de $2,000.
 - Mensualidad: $3,500 (con opción de beca del 20%).
 
@@ -130,7 +126,7 @@ Este programa además necesita:
   - "Sí, contamos con validez oficial. Te muestro el detalle completo al momento de tu inscripción."
 
 - **"Está caro"**
-  - "Te entiendo. Justo por eso tenemos descuento vigente en inscripción, y podemos ver qué horario y plan se ajusta mejor a ti."
+  - "Te entiendo. Cuéntame qué programa te interesa para ver qué opciones de pago y horarios se ajustan mejor a ti."
 
 - **"Lo voy a pensar"**
   - "Claro, tómate tu tiempo 😊 Nada más te comento que estamos por iniciar grupo, y para asegurar tu lugar es mejor apartarlo. ¿Quieres que dejemos apartado tu lugar mientras lo decides?"

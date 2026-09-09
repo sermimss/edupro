@@ -31,3 +31,6 @@ services:
       - key: LOG_FILE
         value: /tmp/cess_bot.log
         sync: false
+      - key: OPENAI_TIMEOUT
+        value: 60
+        sync: false
