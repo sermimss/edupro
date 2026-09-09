@@ -237,6 +237,27 @@ def test_non_interactive_unsupported_message_is_ignored(client):
     assert not mock_create.called
 
 
+def test_full_context_file_reaches_openai_instructions_verbatim(client):
+    """Regression check that contextoies.md is passed to the model intact:
+    if this ever gets truncated or mangled, the bot would answer with
+    incomplete or wrong information regardless of how well the rest of the
+    pipeline works."""
+    from pathlib import Path
+
+    contexto_real = Path(__file__).resolve().parent.parent.joinpath("contextoies.md").read_text(encoding="utf-8")
+
+    payload = payload_mensaje("wamid.CTX1", texto="Cual es el costo de Auxiliar de Enfermeria?")
+    respuesta = fake_openai_response("La inscripcion es de $500 y la mensualidad de $1,250.")
+
+    with patch("openai_service.client.responses.create", return_value=respuesta) as mock_create, \
+         patch("meta_api.session.post") as mock_post:
+        mock_post.return_value = MagicMock(status_code=200, text="{}")
+        post_webhook(client, payload)
+
+    instrucciones_enviadas = mock_create.call_args.kwargs["instructions"]
+    assert contexto_real in instrucciones_enviadas
+
+
 def test_limpiar_mensajes_procesados_antiguos_purges_old_entries():
     from datetime import datetime, timedelta, timezone
 
